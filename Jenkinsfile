@@ -7,7 +7,8 @@ pipeline {
             }
         }
         stage('build') { 
-            steps {
+            steps {I
+	        input 'Waiting for you to authorize'
                 sh 'mvn package' 
             }
         }
