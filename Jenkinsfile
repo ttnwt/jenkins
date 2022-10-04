@@ -8,7 +8,7 @@ pipeline {
         }
 	stage('code quality') { 
             steps {
-                waitSonarQubeEnv('SonarQube')
+                waithSonarQubeEnv('SonarQube')
                  sh "${mvnHome}/bin/mvn sonar:sonar"     
             }
         }
