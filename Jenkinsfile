@@ -6,10 +6,10 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-	stage('sonar scan') { 
+	stage('code quality') { 
             steps {
-                sh 'mvn sonar:sonar'
-		echo 'scanning successful'
+                waitSonarQubeEnv('SonarQube')
+                 sh "${mvnHome}/bin/mvn sonar:sonar"     
             }
         }
 	stage('Quality Gate') { 
