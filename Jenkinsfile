@@ -12,11 +12,12 @@ pipeline {
 		echo 'scanning successful'
             }
         }
-	stage('Quality Gate') { 
+	stage("Quality Gate") {
             steps {
+              timeout(time: 1, unit: 'MINUTE') {
                 waitForQualityGate abortPipeline: true
-            }
-        }
+	    }
+	}
         stage('build') { 
             steps {
 	        echo 'packaging'
