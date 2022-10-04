@@ -8,8 +8,8 @@ pipeline {
         }
 	stage('sonar scan') { 
             steps {
-                withSonarQubeEnv('SonarQube Scanner') 
-                sh 'sonar-scanner'
+                sh 'mvn sonar:sonar'
+		echo 'scanning successful'
             }
         }
 	stage('Quality Gate') { 
