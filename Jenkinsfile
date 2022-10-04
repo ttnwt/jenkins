@@ -8,8 +8,8 @@ pipeline {
         }
 	stage('sonar scan') { 
             steps {
-	        echo 'quality'
                 sh 'mvn sonar:sonar'
+		echo 'scanning successful'
             }
         }
         stage('build') { 
