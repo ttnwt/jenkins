@@ -10,12 +10,12 @@ pipeline {
             steps {
                 sh 'mvn sonar:sonar'
 		echo 'scanning successful'
-            }
-        }
-	stage("Quality Gate") {
-            steps {
-              timeout(time: 1, unit: 'MINUTE') {
-                waitForQualityGate abortPipeline: true
+             }
+         }
+	 stage('Quality Gate') {
+             steps {
+               timeout(time: 1, unit: 'MINUTE') {
+                 waitForQualityGate abortPipeline: true
 	    }
 	}
         stage('build') { 
