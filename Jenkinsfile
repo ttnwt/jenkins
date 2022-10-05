@@ -6,18 +6,15 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-	 stage("build & SonarQube analysis") {
-            agent any
+	 stage('build') { 
             steps {
-              withSonarQubeEnv('sonarqube') {
-                sh 'mvn clean package sonar:sonar'
-              }
+	        echo 'Building Package'
+                sh 'mvn package' 
             }
           }
-          stage("Quality Gate") {
+          stage("sonar qube scan") {
             steps {
-              timeout(time: 10, unit: 'SECONDS') {
-                waitForQualityGate abortPipeline: true
+                sh 'sonar:sonar'
               }
             }
           }
