@@ -12,18 +12,13 @@ pipeline {
 		echo 'scanning successful'
              }
          }
-	 stage('Sonarqube Analysis') {
-            environment {
-                scannerHome = tool 'Sonar scanner'
-            }
+	 stage("Quality Gate") {
             steps {
-                withSonarQubeEnv('Sonarserver') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                  }
-                if ("${json.projectStatus.status}" == "ERROR") {
-                            currentBuild.result = 'FAILURE'
-                            error('Pipeline aborted due to quality gate failure.')
-                    }
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
         stage('build') { 
             steps {
 	        echo 'packaging'
@@ -36,7 +31,7 @@ pipeline {
             }
         }
     }
-}
-}
+
+
 }
 
