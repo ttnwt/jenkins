@@ -6,7 +6,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-        stage('SonarQube analysis') 
+	stage('SonarQube analysis') { 
 	    steps{
                 withSonarQubeEnv(credentialsId: '72d92ffbb85231c9dab6d68055e11b305c0ba56a', installationName: 'sonarqube') { // You can override the credential to be used
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
@@ -29,4 +29,5 @@ pipeline {
             }
         }
     }
+}
 }
