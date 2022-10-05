@@ -6,24 +6,21 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-	stage('sonar scan') { 
+	 stage("build & SonarQube analysis") {
+            agent any
             steps {
-                sh 'mvn sonar:sonar'
-		echo 'scanning successful'
-             }
-         }
-	  stage("Quality Gate") {
-      steps {
-        timeout(time: 1, unit: 'HOURS') {
-          script {
-            def qg = waitForQualityGate()
-            if (qg.status != 'OK') {
-              error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              withSonarQubeEnv('sonarqube') {
+                sh 'mvn clean package sonar:sonar'
+              }
             }
           }
-        }
-      }
-    }
+          stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
         stage('build') { 
             steps {
 	        echo 'packaging'
