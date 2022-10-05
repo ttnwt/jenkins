@@ -8,7 +8,7 @@ pipeline {
         }
         stage("sonar qube scan") {
             steps {
-                sh 'sonar:sonar'
+                sh 'mvn sonar:sonar'
             }
         }
         stage('build') { 
