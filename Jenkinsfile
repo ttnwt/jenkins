@@ -6,18 +6,11 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-	 stage('build') { 
-            steps {
-	        echo 'Building Package'
-                sh 'mvn package' 
-            }
-          }
-          stage("sonar qube scan") {
+        stage("sonar qube scan") {
             steps {
                 sh 'sonar:sonar'
-              }
             }
-          }
+        }
         stage('build') { 
             steps {
 	        echo 'packaging'
