@@ -6,14 +6,9 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-	stage("sonar qube scan") {
+	stage("sonarqube quality scan") {
             steps {
                 sh 'mvn sonar:sonar'
-            }
-        }
-	stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
             }
         }
         stage('build') { 
