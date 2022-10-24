@@ -6,27 +6,9 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-	//stage("sonarqube quality scan") {
-           //steps {
-              // sh 'mvn sonar:sonar'
-           // }
-        //}
-	 stage('build && SonarQube analysis') {
-            steps {
-		print analyses
-                withSonarQubeEnv('mysonarqube') {
-                    // Optionally use a Maven environment you've configured already
-                        sh 'mvn clean package sonar:sonar' -Dsonar.sources=src/main 
-                    }
-                }
-            }
-        }
-        stage("Quality Gate") {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    waitForQualityGate abortPipeline: true
+	stage("sonarqube quality scan") {
+           steps {
+              sh 'mvn sonar:sonar'
             }
         }
 	stage('Quality gate') { 
