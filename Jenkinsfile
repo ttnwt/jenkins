@@ -11,6 +11,12 @@ pipeline {
                sh 'mvn sonar:sonar'
             }
         }
+	stage('Quality gate') { 
+            steps {
+	        sleep 10
+                waitForQualityGate abortPipeline: true 
+            }
+        }
         stage('build') { 
             steps {
 	        echo 'packaging'
