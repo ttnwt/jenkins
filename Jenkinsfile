@@ -6,9 +6,32 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/ttnwt/jenkins.git'
             }
         }
-	stage("sonarqube quality scan") {
-            steps {
-                sh 'mvn sonar:sonar'
+	//stage("sonarqube quality scan") {
+          //  steps {
+            //    sh 'mvn sonar:sonar'
+	 stage ("SonarQube analysis") {  
+        options {
+            timeout(time: 5, unit: 'MINUTES')
+            retry(2)
+        }
+    
+        when {
+          allOf {
+            changeRequest()
+          }
+        }
+      
+        steps {
+          script {
+            STAGE_NAME = "SonarQube analysis"
+      
+            withSonarQubeEnv('****') {
+              sh "../../../sonar-scanner/bin/sonar-scanner"
+            }
+      
+            qualitygate = waitForQualityGate()
+            if (qualitygate.status != "OK") {
+              currentBuild.result = "FAILURE"
             }
         }
         stage('build') { 
